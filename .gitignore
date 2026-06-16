@@ -1,2 +1,6 @@
-myenv
+__pycache__/
 .env
+venv/
+.idea/
+*.pyc
+chat_history.txt
