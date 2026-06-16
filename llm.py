@@ -6,6 +6,11 @@ from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder 
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
+from fastapi import FastAPI
+from fastapi.responses import FileResponse
+
+
+
 
 
 load_dotenv()
@@ -23,10 +28,14 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"],
 class Message(BaseModel):
     text: str
 
+@app.get("/")
+async def home():
+    return FileResponse("index.html")
+
 @app.post("/chat")
 async def chat(msg: Message):
       template = ChatPromptTemplate.from_messages([
-    ("system", "you are a mean assistant who only replies sarcastically. But also you always answer the question, no matter how rude you are."),
+    ("system", "you are a helpful study assistant, but you point out when someone is using you more than required and is not actually learning anything, you also give them tips on how to learn better and not just use you as a crutch"),
     MessagesPlaceholder(variable_name="history"),
     ("human", "{input}")
 ])
